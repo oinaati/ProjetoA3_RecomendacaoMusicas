@@ -5,6 +5,9 @@
  */
 package telas;
 
+import bd.DAO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author natim
@@ -54,6 +57,11 @@ public class CadastroTela extends javax.swing.JFrame {
 
         cadastrarButton.setForeground(new java.awt.Color(102, 102, 102));
         cadastrarButton.setText("Cadastrar");
+        cadastrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Perpetua Titling MT", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -132,6 +140,26 @@ public class CadastroTela extends javax.swing.JFrame {
     private void loginTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_loginTextFieldActionPerformed
+
+    private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
+        String login = loginTextField.getText();
+        String senha = new String(senhaPasswordField.getPassword());
+        classes.Usuario usuario = new classes.Usuario(login, senha);
+        
+        try {
+            if (DAO.existe(usuario)){
+                JOptionPane.showMessageDialog(null, "Usuário já existe.");
+            } else {
+                usuario.cadastroUsuario();
+                JOptionPane.showMessageDialog(null, "Usuário " + usuario.getNome() + " cadastrado com sucesso!");
+                LoginTela lg = new LoginTela();
+                lg.setVisible(true);
+                this.dispose();
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Tente novamente mais tarde!");
+        }
+    }//GEN-LAST:event_cadastrarButtonActionPerformed
 
     /**
      * @param args the command line arguments

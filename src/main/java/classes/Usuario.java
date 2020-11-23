@@ -5,6 +5,10 @@
  */
 package classes;
 
+import java.sql.Connection;
+import bd.ConnectionFactory;
+import java.sql.PreparedStatement;
+
 /**
  *
  * @author natim
@@ -26,5 +30,18 @@ public class Usuario {
         return senha;
     }
     
+    public void cadastroUsuario() throws Exception {
+         String sql = "INSERT INTO tb_usuario (nome, senha) VALUES (?, ?)";
+         
+         try (Connection c = new ConnectionFactory().obterConexao()){
+             
+             PreparedStatement ps = c.prepareStatement(sql);
+             
+             ps.setString(1, nome);
+             ps.setString(2, senha);
+             
+             ps.execute();
+         }
+    }
     
 }
