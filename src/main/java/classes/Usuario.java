@@ -16,8 +16,14 @@ import java.sql.PreparedStatement;
 public class Usuario {
     private String nome;
     private String senha;
+    private String email;
 
-    public Usuario(String nome, String senha) {
+    public Usuario(String nome, String email, String senha) {
+        this(nome, senha);
+        this.email = email;
+    }
+    
+    public Usuario(String nome, String senha){
         this.nome = nome;
         this.senha = senha;
     }
@@ -29,19 +35,10 @@ public class Usuario {
     public String getSenha() {
         return senha;
     }
-    
-    public void cadastroUsuario() throws Exception {
-         String sql = "INSERT INTO tb_usuario (nome, senha) VALUES (?, ?)";
-         
-         try (Connection c = new ConnectionFactory().obterConexao()){
-             
-             PreparedStatement ps = c.prepareStatement(sql);
-             
-             ps.setString(1, nome);
-             ps.setString(2, senha);
-             
-             ps.execute();
-         }
+
+    public String getEmail() {
+        return email;
     }
+    
     
 }
