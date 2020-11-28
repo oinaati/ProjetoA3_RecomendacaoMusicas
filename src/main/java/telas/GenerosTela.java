@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 package telas;
+
+import bd.DAO;
 import classes.Genero;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author natim
@@ -15,7 +20,7 @@ public class GenerosTela extends javax.swing.JFrame {
      * Creates new form GenerosTela
      */
     public GenerosTela() {
-        super ("Generos");
+        super("Generos");
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -39,6 +44,8 @@ public class GenerosTela extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaGeneros = new javax.swing.JTable();
         voltarButton = new javax.swing.JButton();
+        removerButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -60,7 +67,7 @@ public class GenerosTela extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Perpetua Titling MT", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Gêneros favoritos");
+        jLabel1.setText("MEUS Gêneros favoritos");
 
         inserirTextField.setBackground(new java.awt.Color(255, 255, 255));
         inserirTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, new java.awt.Color(204, 204, 204), java.awt.Color.lightGray, java.awt.Color.lightGray));
@@ -84,16 +91,30 @@ public class GenerosTela extends javax.swing.JFrame {
         tabelaGeneros.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray));
         tabelaGeneros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "Gênero"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabelaGeneros.setColumnSelectionAllowed(true);
         jScrollPane3.setViewportView(tabelaGeneros);
+        tabelaGeneros.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         voltarButton.setBackground(new java.awt.Color(232, 237, 239));
         voltarButton.setForeground(new java.awt.Color(51, 51, 51));
@@ -106,6 +127,17 @@ public class GenerosTela extends javax.swing.JFrame {
             }
         });
 
+        removerButton.setForeground(new java.awt.Color(102, 102, 102));
+        removerButton.setText("Remover");
+        removerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel3.setText("Digite seu gênero favorito aqui:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,31 +145,35 @@ public class GenerosTela extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(voltarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(inserirButton, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-                            .addComponent(inserirTextField)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(voltarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(130, 130, 130)
+                            .addComponent(jLabel2))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGap(61, 61, 61)
+                            .addComponent(jLabel1)
+                            .addGap(22, 22, 22))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(36, 36, 36)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(inserirButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(inserirTextField)
+                                .addComponent(removerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(voltarButton)))
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(voltarButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inserirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -146,7 +182,9 @@ public class GenerosTela extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(removerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,20 +214,41 @@ public class GenerosTela extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarButtonActionPerformed
 
     private void inserirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirButtonActionPerformed
-         String nome = inserirTextField.getText();
-         Genero genero = new Genero(nome);
-         
-         try {
-             genero.inserirGenero();
-             inserirTextField.setText("");
-         } catch (Exception e){
-             e.printStackTrace();
-         }
+        String nomeGenero = inserirTextField.getText();
+
+        if (nomeGenero == null || nomeGenero.length() <= 0) {
+            JOptionPane.showMessageDialog(null, "Digite um gênero para inserir nos seus favoritos!");
+            return;
+        } else {
+             //adicionar Genero na tabela 
+            JOptionPane.showMessageDialog(null, "Gênero cadastrado com sucesso!");
+
+            DefaultTableModel gen = (DefaultTableModel) tabelaGeneros.getModel();
+
+            gen.addRow(new String[]{nomeGenero});
+
+            inserirTextField.setText("");
+
+            inserirTextField.requestFocus();
+        }
+        try {
+            Genero genero = new Genero(nomeGenero);
+            DAO.inserirGenero(genero);
+            //TESTE buscarGenero();
+
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Tente novamente mais tarde!");
+        }
     }//GEN-LAST:event_inserirButtonActionPerformed
 
     private void inserirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirTextFieldActionPerformed
-       
+
     }//GEN-LAST:event_inserirTextFieldActionPerformed
+
+    private void removerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerButtonActionPerformed
+         ((DefaultTableModel) tabelaGeneros.getModel()).removeRow(tabelaGeneros.getSelectedRow());
+    }//GEN-LAST:event_removerButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,10 +290,12 @@ public class GenerosTela extends javax.swing.JFrame {
     private javax.swing.JTextField inserirTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton removerButton;
     private javax.swing.JTable tabelaGeneros;
     private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables

@@ -5,6 +5,7 @@
  */
 package bd;
 
+import classes.Genero;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,12 +35,22 @@ public class DAO {
         String sql = "INSERT INTO tb_usuario (nome, email, senha) VALUES (?, ?, ?)";
 
         try (Connection c = new ConnectionFactory().obterConexao();
-               PreparedStatement ps = c.prepareStatement(sql) ) {
-            
+                PreparedStatement ps = c.prepareStatement(sql)) {
+
             ps.setString(1, usuario.getNome());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getSenha());
 
+            ps.execute();
+        }
+    }
+
+    public static void inserirGenero(Genero genero) throws Exception {
+        String sql = "INSERT INTO tb_genero (nome) VALUES (?)";
+
+        try (Connection c = new ConnectionFactory().obterConexao();
+                PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, genero.getNome());
             ps.execute();
         }
     }

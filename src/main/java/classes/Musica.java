@@ -14,12 +14,30 @@ import bd.ConnectionFactory;
  * @author natim
  */
 public class Musica {
+
     private String nome;
     private int avaliacao;
 
     public Musica(String nome, int avaliacao) {
         this.nome = nome;
         this.avaliacao = avaliacao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 
 }
