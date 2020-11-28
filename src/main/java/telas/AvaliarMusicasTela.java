@@ -5,6 +5,11 @@
  */
 package telas;
 
+import bd.DAOMusica;
+import classes.Musica;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author natim
@@ -62,14 +67,14 @@ public class AvaliarMusicasTela extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Musica", "Nota"
+                "Musica", "Gênero", "Nota"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -161,11 +166,34 @@ public class AvaliarMusicasTela extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarButtonActionPerformed
 
     private void confirmarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarButtonActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) tabelaAvaliacoes.getModel();
+        
+        tabelaAvaliacoes.getColumnModel().getColumn(2);
+        
         
     }//GEN-LAST:event_confirmarButtonActionPerformed
 
     private void carregarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carregarButtonActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) tabelaAvaliacoes.getModel();
+
+        tabelaAvaliacoes.getColumnModel().getColumn(0);
+        tabelaAvaliacoes.getColumnModel().getColumn(1);
+        tabelaAvaliacoes.getColumnModel().getColumn(2);
+
+        DAOMusica dao = new DAOMusica();
+
+        try {
+
+            for (Musica m : dao.listar()) {
+                modelo.addRow(new Object[]{
+                    m.getNome(),
+                    m.getGenero(),
+                    m.getAvaliacao()
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível carregar as músicas!");
+        }
     }//GEN-LAST:event_carregarButtonActionPerformed
 
     /**

@@ -8,6 +8,9 @@ package classes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import bd.ConnectionFactory;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,15 +19,25 @@ import bd.ConnectionFactory;
 public class Musica {
 
     private String nome;
-    private int avaliacao;
+    private int avaliacao, id;
+    private String genero;
 
-    public Musica(String nome, int avaliacao) {
+    public Musica(String nome, String genero, int avaliacao) {
         this.nome = nome;
         this.avaliacao = avaliacao;
+        this.genero = genero;
+    }
+    
+    public Musica(){
+        
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public String getGenero() {
+        return genero;
     }
 
     public void setAvaliacao(int avaliacao) {
@@ -34,6 +47,12 @@ public class Musica {
     public int getAvaliacao() {
         return avaliacao;
     }
+
+    public int getId() {
+        return id;
+    }
+    
+    
 
     @Override
     public String toString() {
